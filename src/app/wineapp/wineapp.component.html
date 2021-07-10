@@ -1,0 +1,100 @@
+<div class="navbar">
+  <input class="form-control" #sname type="text" [(ngModel)]="cname" (ngModelChange)="search(sname.value)" placeholder="Search any cocktails here...">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+    fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+    <path
+      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+  </svg>
+
+</div>
+
+<div class="filter">
+  <div class="ml-5 form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="filter" [(ngModel)]="filter" (ngModelChange)="checkSelect('none')" id="none" value="none">
+    <label class="form-check-label" for="none">All</label>
+  </div>
+  <div class="ml-5 form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="filter" [(ngModel)]="filter" (ngModelChange)="checkSelect('a=alcoholic')" id="alcoholic" value="alcoholic">
+    <label class="form-check-label" for="alcoholic">Alcoholic</label>
+  </div>
+  <div class="ml-5 form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="filter" [(ngModel)]="filter" (ngModelChange)="checkSelect('a=Non_Alcoholic')" id="nonalcoholic" value="nonalcoholic">
+    <label class="form-check-label" for="nonalcoholic">Non Alcoholic</label>
+  </div>
+  <div class="ml-5 form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="filter" [(ngModel)]="filter" (ngModelChange)="checkSelect('c=Ordinary_Drink')" id="Ordinary_Drink" value="Ordinary_Drink">
+    <label class="form-check-label" for="Ordinary_Drink">Ordinary Drink</label>
+  </div>
+  <div class="ml-5 form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="filter" [(ngModel)]="filter" (ngModelChange)="checkSelect('c=Cocktail')" id="Cocktail" value="Cocktail">
+    <label class="form-check-label" for="Cocktail">Cocktails</label>
+  </div>
+</div>
+
+<div class="wine-type">
+  <div class="card" *ngFor="let i of data" style="width: 18rem;">
+    <img src="{{i.strDrinkThumb}}" class="card-img-top" alt="...">
+    <div id="{{i.idDrink}}" class="card-body"  data-toggle="modal" data-target="#exampleModalCenter" (click)="FetchData(i.idDrink)">
+      <h5 class="card-title">{{i.strDrink}}</h5>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div *ngFor="let i of detailedWine" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">{{i.strDrink}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card1" style="width: 28rem;">
+          <div class="row ml-1">
+            <div class="col-md-6 p-3 ">
+              <img src="{{i.strDrinkThumb}}" class="img-fluid" alt="Responsive image">
+            </div>
+          </div>
+          <div id="{{i.idDrink}}" class="card-body" >
+            <p class="card-text"><b>Instructions: </b> {{i.strInstructionsIT}}</p>
+            <p class="card-text"><b>Drink Type: </b> {{i.strAlcoholic}}</p>
+            <p class="card-text"><b>Category: </b> {{i.strCategory}}</p>
+            <b>Ingredients:</b>
+            <ul>
+              <li *ngFor="let ingredient of ingredients" data-toggle="modal" data-target="#ingredientsmodel"  (click)="IngredientModal(ingredient)" data-dismiss="modal">{{ingredient}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ingredientsmodel" tabindex="-1" role="dialog" aria-labelledby="ingredientsModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div *ngFor="let j of ingredientDetails" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLongTitle">{{j.strIngredient}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card1" style="width: 28rem;">
+          <div class="card-body" >
+            <p class="card-text"><b>Alcohol: </b> {{j.strAlcohol}}</p>
+            <p class="card-text"><b>Description: </b> {{j.strDescription}}</p>
+            <p class="card-text"><b>Drink Type: </b> {{j.strType}}</p>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
